@@ -14,8 +14,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.Test;
 
-public class TestReadExcel {
+public class Test2ReadExcel {
 
 	public static String filePath;
 	public static FileInputStream fileInput;
@@ -39,16 +40,13 @@ public class TestReadExcel {
 	 */
 	public static XSSFSheet getRequiredSheet(String productName, String sheetName) throws IOException {
 
-//		String productName = "Activ Health Enhanced";
 		/**
 		 *** From "GetSheetLocation" class get the product sheet location.
 		 */
 		String filePath = TestGetSheetLocation.getProductSheet(productName);
-//		System.err.println(" >>>> Workbook File location : " + filePath);
 		fileInput = new FileInputStream(filePath);
 		workBook = new XSSFWorkbook(fileInput);
 		noOfSheets = workBook.getNumberOfSheets();
-//		System.err.println(" >>>> No Of Sheets in a Workbook  : " + noOfSheets);
 
 		/**
 		 ** Store all sheets into arrayList = sheetList
@@ -81,7 +79,6 @@ public class TestReadExcel {
 		currentSheet = getRequiredSheet(productName, sheetName); // Get the Sheet from this method
 
 		int noOfRows = currentSheet.getPhysicalNumberOfRows();
-//		System.err.println(" Number Of Rows in a sheet  : " + noOfRows);
 
 		ItRows = currentSheet.iterator();
 		row = ItRows.next();
@@ -97,6 +94,9 @@ public class TestReadExcel {
 			if (cell.getStringCellValue().equalsIgnoreCase("TestCaseID")) {
 				column = k;
 				break;
+			} else {
+
+				System.out.println(" Column Not Available : ");
 			}
 			k++;
 		}
@@ -149,6 +149,13 @@ public class TestReadExcel {
 					cell = itCell.next();
 					if (cell.getCellType() == CellType.STRING) {
 						value = cell.getStringCellValue();
+//						******************************** New implimentation *************
+
+//						if (value.contains("Self,Spouse,Son")) {
+//							
+//						}
+
+//						******************************** New implementation *************
 						testCaseRowData.add(value);
 					} else {
 						value = NumberToTextConverter.toText(cell.getNumericCellValue());
@@ -170,6 +177,15 @@ public class TestReadExcel {
 
 		for (int i = 0; i < headderCellsCount; i++) {
 			String colName = currentSheet.getRow(0).getCell(i).getStringCellValue();
+
+//			******************************** New implimentation *************
+//			if (colName.equalsIgnoreCase("Insured Member")) {
+//				currentSheet = getRequiredSheet(productName, "Insured Member Details");
+//
+//			}
+
+//			********************************New implimentation *************
+
 			colHeaders.add(colName);
 		}
 
@@ -184,7 +200,7 @@ public class TestReadExcel {
 			mapData.put(colHeaders.get(i), testCaseRowData.get(i));
 		}
 
-//		System.err.println(mapData);
+		System.err.println(mapData);
 		return mapData;
 
 	}
@@ -194,57 +210,83 @@ public class TestReadExcel {
 	 * 
 	 * @return
 	 */
-	public static HashMap<String, String> getTestData(String productName, String sheetName, String TestCaseID)
-			throws IOException {
 
-//		String TestCase = "TC_003";
+	public static HashMap<String, String> getTestData() throws IOException {
+		String productName = "Activ Health Enhanced";
+//		String sheetName = "Insured Details";
 
-//		String insured_Details_Sheet = "Insured Details";
+		String TestCaseID = "TC_003";
+//		String colHeaderName = "Activ Health Plan";
 
+		// Create an ArrayList
+		ArrayList<String> arraySheets = new ArrayList<>();
+		arraySheets.add("Insured Details");
+//		arraySheets.add("Insured Member Details");
+		arraySheets.add("Lead Creation");
+		arraySheets.add("Proposer Details");
+		arraySheets.add("Previous Insurance Nominee");
+		arraySheets.add("Bank Details");
+		arraySheets.add("Payment Details");
+
+//        for (int i = 0; i < arraySheets.size(); i++) {
+//            System.out.println(arraySheets.get(i));
+//        }
+
+		/**
+		 ** Get The TestCase IS's from BaseSheets.
+		 */
 		ArrayList<String> arrayData = getTestCaseDetailsSheet(productName, baseSheetName);
 
 		for (int i = 0; i < arrayData.size(); i++) {
 			String Ts = arrayData.get(i);
 			if (Ts.equalsIgnoreCase(TestCaseID)) {
-				currentSheet = getRequiredSheet(productName, sheetName);
-				String actualshee = currentSheet.getSheetName();
-				mapData = getDataIntoHashMap(productName, actualshee, TestCaseID);
-//				System.out.println(" Correct " + value);
-				break;
+
+//				for (int j = 0; j < arraySheets.size(); j++) {
+				for (String sheetName : arraySheets) {
+//					String sheetName = arraySheets.get(i);
+					currentSheet = getRequiredSheet(productName, sheetName);
+					String actualshee = currentSheet.getSheetName();
+					mapData = getDataIntoHashMap(productName, actualshee, TestCaseID);
+				}
+
+//				currentSheet = getRequiredSheet(productName, sheetName);
+//				String actualshee = currentSheet.getSheetName();
+//				mapData = getDataIntoHashMap(productName, actualshee, TestCaseID);
+////				System.out.println(" Correct " + value);
+//				break;
+
 			}
 
 		}
 		return mapData;
-//		return mapData.get(columnHeaderName);
 
+	}
+
+	@Test
+	public void name() throws IOException {
+		HashMap<String, String> data = getTestData();
+		System.out.println(data);
 	}
 
 //	@Test
-	public static String getDataFromMap(String productName, String sheetName, String TestCaseID, String colHeaderName)
-			throws IOException {
-
-//		String productName = "Activ Health Enhanced";
-//		String sheetName = "Insured Details";
-//		String TestCaseID = "TC_003";
-//		String colHearName = "Activ Health Plan";
-
-		String value = null;
-
-//		String value = getTestData("Insured Member");
-
-		HashMap<String, String> mapData = getTestData(productName, sheetName, TestCaseID);
-		for (Entry<String, String> map : mapData.entrySet()) {
-
-			if (map.getKey().equalsIgnoreCase(colHeaderName)) {
-				value = map.getValue();
-//				System.out.println(" Required Value : " + value);
-			} else if (colHeaderName.equalsIgnoreCase("Insured Member")) {
-
-			}
-
-		}
-		return value;
-
-	}
-
+//	public static void getDataFromMap() throws IOException {
+//
+//		String value = null;
+//
+////		String value = getTestData("Insured Member");
+//
+//		HashMap<String, String> mapData = getTestData(productName, sheetName, TestCaseID);
+//
+//		for (Entry<String, String> map : mapData.entrySet()) {
+//
+//			if (map.getKey().equalsIgnoreCase(colHeaderName)) {
+//				value = map.getValue();
+////				System.out.println(" Required Value : " + value);
+//			} else if (colHeaderName.equalsIgnoreCase("Insured Member")) {
+//
+//			}
+//
+//		}
+//
+//	}
 }

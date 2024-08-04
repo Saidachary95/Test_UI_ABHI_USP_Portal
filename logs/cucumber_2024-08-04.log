@@ -1,0 +1,21 @@
+[INFO ] 2024-08-04 15:36:33,118 DriverFactory.initiate_browser() -  >>>>>> Browser value is : Chrome
+[INFO ] 2024-08-04 15:36:52,226 DriverFactory.initiate_browser() - Chrome browser opened 
+[INFO ] 2024-08-04 15:36:56,772 DriverFactory.initiate_browser() - Application URL is : https://usp.monocept.ai/ABHI/
+[INFO ] 2024-08-04 15:36:57,111 LoginSteps.agent_launched_the_browser_and_entered_url() -  >>>>>>>>>> User Sucessfully launched browser and entered Url 
+[INFO ] 2024-08-04 15:36:57,160 LoginSteps.verify_agent_landed_on_page() -  >>>>>>>>>> User Landed on dashboard  Aditya Birla Health Insurance
+[INFO ] 2024-08-04 15:36:57,172 LoginSteps.agent_entered() -  Key is : Username
+[INFO ] 2024-08-04 15:36:57,174 LoginSteps.agent_entered() -  Value is : pratik@adityabirlacapital.com
+[INFO ] 2024-08-04 15:36:57,216 CommonObjects.enterTextByPlaceholder() - 
+[INFO ] 2024-08-04 15:36:57,953 LoginSteps.agent_entered() -  >>>>>>>>>> User entered :  Username
+[INFO ] 2024-08-04 15:36:57,953 LoginSteps.agent_entered() -  Key is : Password
+[INFO ] 2024-08-04 15:36:57,969 LoginSteps.agent_entered() -  Value is : 12345
+[INFO ] 2024-08-04 15:36:58,016 CommonObjects.enterTextByPlaceholder() - 
+[INFO ] 2024-08-04 15:36:58,639 LoginSteps.agent_entered() -  >>>>>>>>>> User entered :  Password
+[INFO ] 2024-08-04 15:36:58,687 CommonObjects.clickOnButtonByClass() - Login
+[INFO ] 2024-08-04 15:37:04,800 LoginSteps.agent_clicked_on_button() -  >>>>>>>>>> User clicked on login-button
+[INFO ] 2024-08-04 15:37:07,887 ProductJourney.user_selected_product_item_as() -  >>>>>>  User clicked on : Activ Health Enhanced
+[INFO ] 2024-08-04 15:37:12,397 ProductJourney.user_selected_for_test_case() -  >>>>> User selected New Business
+[INFO ] 2024-08-04 15:37:18,420 ProductJourney.user_entered_for_test_case() -  >>>>> User Entered : 10-10-1995
+[INFO ] 2024-08-04 15:37:21,962 ProductJourney.user_selected_for_test_case() -  >>>>> User selected Male
+[INFO ] 2024-08-04 15:37:28,713 ProductJourney.user_selected_for_test_case() -  >>>>> User selected 600000
+[INFO ] 2024-08-04 15:37:34,311 ProductJourney.user_entered_for_test_case() -  >>>>> User Entered : 508217
